@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/doctor")
+@RequestMapping("/doctors")
 public class DoctorController {
 
     private DoctorService doctorService;
@@ -18,13 +18,14 @@ public class DoctorController {
     @GetMapping
     public String doctor(Model model) {
         model.addAttribute("allDoctors", doctorService.readAll());
-        return "doctor";
+        var doctors = doctorService.readAll();
+        return "doctors";
     }
 
     @GetMapping("/edit")
     public String editDoctor(@RequestParam Long id, Model model) {
         doctorService.setActiveDoctor(id);
-        model.addAttribute("doctor", doctorService.readOne().orElseThrow());
+        model.addAttribute("doctors", doctorService.readOne().orElseThrow());
         return "doctor-edit";
     }
 

@@ -29,7 +29,7 @@ public class DoctorClient {
         Client client = ClientBuilder
                 .newClient()
                 .register(LoggingFeature.builder().level(Level.ALL).build());
-        doctorEndpoint = client.target(serverUrl + "/doctor");
+        doctorEndpoint = client.target(serverUrl + "/doctors");
         singleTemplateEndpoint = doctorEndpoint.path("/{id}");
     }
 

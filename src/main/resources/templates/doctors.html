@@ -29,6 +29,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Phone Number</th>
+            <th>Patients</th>
             <th>Appointments</th>
 
         </tr>
@@ -38,19 +39,18 @@
             <td th:text="${doctor.name}"></td>
             <td th:text="${doctor.emailAddress}"></td>
             <td th:text="${doctor.phoneNumber}"></td>
-            <td th:text="${doctor.emailAddress}"></td>
             <td>
-                <p th:each = "patient, i : ${doctor.patients}">
+                <p th:each = "patient : ${doctor.patients}">
                     <a href="#" th:href="@{'/patient/edit?id=' + ${patient.patient_id}}">
-                        <span th:text = "<${patient[i].patient_name}}"></span>
+                        <span th:text = "${patient.patient_name}"></span>
                     </a>
                 </p>
             </td>
             <td>
                 <p th:each = "appointment, i : ${doctor.appointments}">
                     <!-- <a ... th:text="..."> might also work here -->
-                     <a href="#" th:href="@{'/appointment/edit?id=' + ${appointment[i].appointment_id}}">
-                         <span th:text = "${appointment[i].patient_name}:${appointment[i].time_from}"></span>
+                     <a href="#" th:href="@{'/appointment/edit?id=' + ${appointment.appointment_id}}">
+                         <span th:utext = "${appointment.patient_name} + ' - ' + ${#temporals.format(appointment.time_from, 'MEDIUM')}"></span>
                      </a>
                 </p>
             </td>
