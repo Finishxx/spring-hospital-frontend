@@ -25,13 +25,16 @@ public class DoctorController {
     @GetMapping("/edit")
     public String editDoctor(@RequestParam Long id, Model model) {
         doctorService.setActiveDoctor(id);
-        model.addAttribute("doctors", doctorService.readOne().orElseThrow());
-        return "doctor-edit";
+        model.addAttribute("doctor", doctorService.readOne().orElseThrow());
+        return "doctorsEdit";
     }
 
     @PostMapping("/edit")
     public String submitEditDoctor(@ModelAttribute DoctorDto doctor, Model model) {
         doctorService.setActiveDoctor(doctor.getId());
+        DoctorDto originalDoctor = doctorService.readOne().orElseThrow(); // sad :c
+        doctor.setAppointments(originalDoctor.getAppointments());
+        doctor.setPatients(originalDoctor.getPatients());
         try {
             doctorService.update(doctor);
         } catch (BadRequestException e) {
@@ -39,6 +42,6 @@ public class DoctorController {
             model.addAttribute("errorMsg", e.getMessage());
         }
         model.addAttribute("doctor", doctor);
-        return "doctorEdit";
+        return "doctorsEdit";
     }
 }
