@@ -1,6 +1,8 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.web;
 
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.AppointmentDto;
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.InnerDoctorDto;
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.InnerPatientDto;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.AppointmentService;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.DoctorService;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.PatientService;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Controller
@@ -55,6 +58,16 @@ public class AppointmentController {
         }
         model.addAttribute("appointment", appointment);
         return "appointmentsEdit";
+    }
+
+    @GetMapping("/create")
+    public String createAppointment(Model model) {
+        model.addAttribute("allDoctors", doctorService.readAll());
+        model.addAttribute("allPatients", patientService.readAll());
+        model.addAttribute("appointment", new AppointmentDto());
+
+        return "appointmentsCreate";
+
     }
 
 }
