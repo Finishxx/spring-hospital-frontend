@@ -18,7 +18,7 @@ public class PatientService {
 
     void create(PatientDto patient) { patientClient.create(patient); }
 
-    public void voidSetActivePatient(Long id) {
+    public void setActivePatient(Long id) {
         patientClient.setActivePatient(id);
         isPatientActive = true;
     }

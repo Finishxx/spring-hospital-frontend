@@ -75,8 +75,7 @@ public class DoctorController {
     public String addedPatient(@RequestParam Long id, @RequestParam Long added, Model model) {
         doctorService.setActiveDoctor(id);
         DoctorDto doctor = doctorService.readOne().orElseThrow();
-        System.out.println(doctor.getName());
-        patientService.voidSetActivePatient(added);
+        patientService.setActivePatient(added);
         PatientDto patient = patientService.readOne().orElseThrow();
         InnerPatientDto innerPatientDto = new InnerPatientDto();
         innerPatientDto.setPatient_id(added);
@@ -84,7 +83,7 @@ public class DoctorController {
         doctor.getPatients().add(innerPatientDto);
         doctorService.update(doctor);
 
-        return addPatient(id, model); //Will this work? xDD
+        return addPatient(id, model); //Will this work? xDD - it does!
     }
 
     @GetMapping("/removePatient")
@@ -103,5 +102,17 @@ public class DoctorController {
         model.addAttribute("patients", filteredPatients);
 
         return "doctorsRemovePatient";
+    }
+
+    @PostMapping("/removePatient")
+    public String removedPatient(@RequestParam Long id, @RequestParam Long removed, Model model) {
+        doctorService.setActiveDoctor(id);
+        DoctorDto doctor = doctorService.readOne().orElseThrow();
+        patientService.setActivePatient(removed);
+        doctor.getPatients().removeIf(innerPatientDto -> innerPatientDto.getPatient_id() == removed);
+        doctorService.update(doctor);
+
+        return removePatient(id, model);
+
     }
 }

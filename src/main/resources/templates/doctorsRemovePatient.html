@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add patient</title>
+    <title>Remove patient</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"></head>
 
 </head>
@@ -26,7 +26,7 @@
 </nav>
 
 <div class="container">
-    <h1 th:text="'Add patient to ' + ${doctor.name}"></h1>
+    <h1 th:text="'Remove patient from ' + ${doctor.name}"></h1>
 
     <a th:href="@{'/doctors/edit?id=' + ${doctor.id}}">
         <button type="submit" name="submit" value="value" class="link-button">Go Back</button>
@@ -49,15 +49,16 @@
             <td th:text="${patient.emailAddress}"></td>
             <td th:text="${patient.phoneNumber}"></td>
             <!-- https://stackoverflow.com/questions/38546100/can-i-make-http-post-request-from-thymeleaf-table-in-spring-boot-application -->
-           <td>
-               <form method="POST" th:action="@{'/doctors/addPatient?id=' + ${doctor.id} + '&added=' + ${patient.id}}">
-                  <button type="submit" name="submit" value="value" class="link-button">Pick</button>
-            </form>
-           </td>
+            <td>
+                <form method="POST" th:action="@{'/doctors/removePatient?id=' + ${doctor.id} + '&removed=' + ${patient.id}}">
+                    <button type="submit" name="submit" value="value" class="link-button">Pick</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
+
 
 </body>
 </html>
