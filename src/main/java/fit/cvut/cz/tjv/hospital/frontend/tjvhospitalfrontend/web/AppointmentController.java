@@ -1,8 +1,6 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.web;
 
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.DoctorDto;
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.InnerPatientDto;
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.PatientDto;
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.AppointmentDto;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.AppointmentService;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.DoctorService;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.PatientService;
@@ -33,6 +31,30 @@ public class AppointmentController {
     public String appointment(Model model) {
         model.addAttribute("allAppointments", appointmentService.readAll());
         return "appointments";
+    }
+
+    @GetMapping("/edit")
+    public String editAppointment(@RequestParam Long id, Model model) {
+        appointmentService.setActiveAppointment(id);
+        model.addAttribute("appointment", appointmentService.readOne().orElseThrow() );
+        return "appointmentsEdit";
+    }
+
+    @PostMapping("/edit")
+    public String submitEditAppointment(@ModelAttribute AppointmentDto appointment, Model model) {
+        appointmentService.setActiveAppointment(appointment.getId());
+        AppointmentDto originalAppointment = appointmentService.readOne().orElseThrow();
+        originalAppointment.setFrom(appointment.getFrom());
+        originalAppointment.setTo(appointment.getTo());
+
+        try {
+            appointmentService.update(originalAppointment);
+        } catch(BadRequestException e) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMsg", e.getMessage());
+        }
+        model.addAttribute("appointment", appointment);
+        return "appointmentsEdit";
     }
 
 }

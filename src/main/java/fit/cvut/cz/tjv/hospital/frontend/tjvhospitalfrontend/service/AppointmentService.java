@@ -16,7 +16,7 @@ public class AppointmentService {
 
     void create(AppointmentDto patient) { appointmentClient.create(patient); }
 
-    public void setActivePatient(Long id) {
+    public void setActiveAppointment(Long id) {
         appointmentClient.setActiveAppointment(id);
         isAppointmentActive = true;
     }
