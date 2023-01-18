@@ -1,8 +1,6 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.web;
 
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.AppointmentDto;
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.InnerDoctorDto;
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.InnerPatientDto;
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.*;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.AppointmentService;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.DoctorService;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.PatientService;
@@ -67,7 +65,30 @@ public class AppointmentController {
         model.addAttribute("appointment", new AppointmentDto());
 
         return "appointmentsCreate";
+    }
 
+    @PostMapping("/create")
+    public String submitCreateAppointment(@ModelAttribute AppointmentDto appointment, Model model) {
+
+        if (appointment.getFrom().isAfter(appointment.getTo())) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMsg", "Invalid time: from is after to!");
+            return createAppointment(model);
+        }
+        doctorService.setActiveDoctor(appointment.getDoctor().getDoctor_id());
+        DoctorDto fullDoctor = doctorService.readOne().orElseThrow();
+
+        patientService.setActivePatient(appointment.getPatient().getPatient_id());
+        PatientDto fullPatient = patientService.readOne().orElseThrow();
+
+        appointment.setId(80L);
+        // the names are not needed, but seems right
+        appointment.getDoctor().setDoctor_name(fullDoctor.getName());
+        appointment.getPatient().setPatient_name(fullPatient.getName());
+
+        appointmentService.create(appointment);
+
+        return createAppointment(model);
     }
 
 }

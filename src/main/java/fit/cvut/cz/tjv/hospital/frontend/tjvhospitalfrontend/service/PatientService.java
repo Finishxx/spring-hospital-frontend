@@ -14,7 +14,7 @@ public class PatientService {
 
     public PatientService(PatientClient patientClient) { this.patientClient = patientClient; }
 
-    void create(PatientDto patient) { patientClient.create(patient); }
+    public void create(PatientDto patient) { patientClient.create(patient); }
 
     public void setActivePatient(Long id) {
         patientClient.setActivePatient(id);

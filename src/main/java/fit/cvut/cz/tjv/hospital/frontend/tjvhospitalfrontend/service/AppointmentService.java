@@ -14,7 +14,7 @@ public class AppointmentService {
 
     public AppointmentService(AppointmentClient appointmentClient) { this.appointmentClient = appointmentClient; }
 
-    void create(AppointmentDto patient) { appointmentClient.create(patient); }
+    public void create(AppointmentDto appointment) { appointmentClient.create(appointment); }
 
     public void setActiveAppointment(Long id) {
         appointmentClient.setActiveAppointment(id);
@@ -28,5 +28,6 @@ public class AppointmentService {
     public Collection<AppointmentDto> readAll() { return appointmentClient.readAll(); }
 
     public void update(AppointmentDto appointment) { appointmentClient.updateOne(appointment); }
+
 
 }
