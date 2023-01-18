@@ -33,7 +33,6 @@ public class DoctorClient {
         singleTemplateEndpoint = doctorEndpoint.path("/{id}");
     }
 
-
     public void setActiveDoctor(Long id) {activeDoctorEndpoint = singleTemplateEndpoint.resolveTemplate("id", id); }
 
     public DoctorDto create(DoctorDto doctor) {

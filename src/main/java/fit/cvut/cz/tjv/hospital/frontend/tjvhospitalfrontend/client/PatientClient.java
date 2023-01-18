@@ -1,6 +1,5 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.client;
 
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.DoctorDto;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.PatientDto;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.client.Client;
