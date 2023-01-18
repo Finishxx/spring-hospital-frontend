@@ -1,8 +1,6 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service;
 
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.client.DoctorClient;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.client.PatientClient;
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.DoctorDto;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.PatientDto;
 import org.springframework.stereotype.Service;
 

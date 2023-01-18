@@ -34,10 +34,10 @@ public class PatientClient {
 
     public void setActivePatient(Long id) {activePatientEndpoint = singleTemplateEndpoint.resolveTemplate("id", id); }
 
-    public PatientDto create(PatientDto doctor) {
+    public PatientDto create(PatientDto patient) {
         return patientEndpoint
                 .request(MediaType.APPLICATION_JSON_TYPE)
-                .post(Entity.entity(doctor, MediaType.APPLICATION_JSON_TYPE), PatientDto.class);
+                .post(Entity.entity(patient, MediaType.APPLICATION_JSON_TYPE), PatientDto.class);
     }
 
     public Optional<PatientDto> readOne() {
