@@ -1,6 +1,8 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.web;
 
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.PatientDto;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.PatientService;
+import jakarta.ws.rs.BadRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,20 +19,31 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @GetMapping("/edit")
-    public String edit(@RequestParam Optional<Long> id_doctor,
-                             @RequestParam Optional<Long> id_patient,
-                             Model model) {
-        if (id_doctor.isPresent()) {
-            model.addAttribute("id_doctor", id_doctor.get());
-        }
-
-        if (id_patient.isPresent()) {
-            model.addAttribute("id_patient", id_patient.get());
-        }
-
-        model.addAttribute("patients", patientService.readAll());
-
-        return "doctorPatientEdit";
+    @GetMapping
+    public String patient(Model model) {
+        model.addAttribute("allPatients", patientService.readAll());
+        return "patients";
     }
+
+    @GetMapping("/edit")
+    public String editPatient(@RequestParam Long id, Model model) {
+        patientService.setActivePatient(id);
+        model.addAttribute("patient", patientService.readOne().orElseThrow());
+        return "patientsEdit";
+    }
+
+    @PostMapping("/edit")
+    public String submitEditPatient(@ModelAttribute PatientDto patient, Model model) {
+        patientService.setActivePatient(patient.getId());
+        try {
+            patientService.update(patient);
+        } catch (BadRequestException e) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMsg", e.getMessage());
+        }
+        model.addAttribute("patient", patient);
+        return "patientsEdit";
+
+    }
+
 }

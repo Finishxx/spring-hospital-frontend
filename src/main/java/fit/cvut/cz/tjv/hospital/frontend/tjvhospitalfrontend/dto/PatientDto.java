@@ -1,6 +1,7 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -12,6 +13,7 @@ public class PatientDto {
     private String name;
     // https://www.baeldung.com/spring-boot-formatting-json-dates
     @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate birthdate;
     private String emailAddress;
     private String phoneNumber;

@@ -26,6 +26,11 @@
     </nav>
 
     <h1>Doctor edit</h1>
+
+    <a th:href="@{'/doctors'}">
+        <button type="submit" name="submit" value="value" class="link-button">Back to doctors</button>
+    </a>
+
     <div th:if="${error}" class="alert alert-danger">
         <span th:text="${errorMsg}"></span>
     </div>
