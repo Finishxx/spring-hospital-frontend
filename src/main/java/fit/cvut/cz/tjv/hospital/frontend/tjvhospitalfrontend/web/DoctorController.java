@@ -190,6 +190,7 @@ public class DoctorController {
         for (Long appointmentId : toCancelIds)
             appointmentService.delete(appointmentId);
 
+
         return cancelAppointments(doctor.getId(), model);
     }
 
