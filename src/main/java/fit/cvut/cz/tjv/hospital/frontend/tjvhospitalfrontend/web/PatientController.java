@@ -43,7 +43,18 @@ public class PatientController {
         }
         model.addAttribute("patient", patient);
         return "patientsEdit";
+    }
 
+    @GetMapping("/create")
+    public String createPatient(Model model) {
+        model.addAttribute("patient", new PatientDto());
+        return "patientsCreate";
+    }
+
+    @PostMapping("/create")
+    public String submitCreatePatient(@ModelAttribute PatientDto patient, Model model) {
+        patientService.create(patient);
+        return createPatient(model);
     }
 
 }

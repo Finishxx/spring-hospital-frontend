@@ -81,7 +81,6 @@ public class AppointmentController {
         patientService.setActivePatient(appointment.getPatient().getPatient_id());
         PatientDto fullPatient = patientService.readOne().orElseThrow();
 
-        appointment.setId(80L);
         // the names are not needed, but seems right
         appointment.getDoctor().setDoctor_name(fullDoctor.getName());
         appointment.getPatient().setPatient_name(fullPatient.getName());
