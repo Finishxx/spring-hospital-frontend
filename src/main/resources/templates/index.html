@@ -24,6 +24,18 @@
 <div class="container">
     <h1>Welcome!</h1>
     <p>Welcome to hospital management application, please navigate Doctor/Patient/Appointment page to modify the given resource.</p>
+
+    <a th:href="@{'/doctors'}">
+        <button type="submit" name="submit" value="value" class="link-button">Doctors</button>
+    </a>
+
+    <a th:href="@{'/patients'}">
+        <button type="submit" name="submit" value="value" class="link-button">Patients</button>
+    </a>
+
+    <a th:href="@{'/appointments'}">
+        <button type="submit" name="submit" value="value" class="link-button">Appointments</button>
+    </a>
 </div>
 </body>
 </html>
