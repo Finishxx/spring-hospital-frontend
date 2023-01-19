@@ -55,7 +55,7 @@ public class AppointmentController {
             model.addAttribute("errorMsg", e.getMessage());
         }
         model.addAttribute("appointment", appointment);
-        return "appointmentsEdit";
+        return editAppointment(appointment.getId(), model);
     }
 
     @GetMapping("/create")
@@ -88,6 +88,12 @@ public class AppointmentController {
         appointmentService.create(appointment);
 
         return createAppointment(model);
+    }
+
+    @GetMapping("delete")
+    public String deleteAppointment(@RequestParam Long id, Model model) {
+        appointmentService.delete(id);
+        return appointment(model);
     }
 
 }

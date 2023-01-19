@@ -29,5 +29,7 @@ public class AppointmentService {
 
     public void update(AppointmentDto appointment) { appointmentClient.updateOne(appointment); }
 
+    public void delete(Long id) { appointmentClient.delete(id); }
+
 
 }

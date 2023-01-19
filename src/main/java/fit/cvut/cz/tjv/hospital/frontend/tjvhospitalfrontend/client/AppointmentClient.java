@@ -64,5 +64,10 @@ public class AppointmentClient {
         if (response.getStatus() > 200)
             throw new BadRequestException(response.getStatusInfo().getReasonPhrase());
     }
+
+    public void delete(Long id) {
+        setActiveAppointment(id);
+        activeAppointmentEndpoint.request(MediaType.APPLICATION_JSON_TYPE).delete(AppointmentDto.class);
+    }
 }
 

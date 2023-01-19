@@ -47,8 +47,8 @@
             <td th:text="${#temporals.format(appointment.from, 'MEDIUM')}"></td>
             <td th:text="${#temporals.format(appointment.to, 'MEDIUM')}"></td>
             <td><a href="#" th:href="@{'/appointments/edit?id=' + ${appointment.id}}">edit</a></td>
-            <!-- MAKE INTO DELETE!
-             <td><a href="#" th:href="@{'/patients/edit?id=' + ${patient.id}}">edit</a></td> -->
+            <td><a style="color:red" href="#" th:href="@{'/appointments/delete?id=' + ${appointment.id}}">delete</a></td>
+
         </tr>
         </tbody>
     </table>
