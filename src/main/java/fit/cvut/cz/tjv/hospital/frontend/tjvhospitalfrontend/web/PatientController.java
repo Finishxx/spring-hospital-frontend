@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -34,6 +36,11 @@ public class PatientController {
 
     @PostMapping("/edit")
     public String submitEditPatient(@ModelAttribute PatientDto patient, Model model) {
+        if (patient.getBirthdate().isAfter(LocalDate.now())) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMsg", "Invalid birthdate!");
+            return editPatient(patient.getId(), model);
+        }
         patientService.setActivePatient(patient.getId());
         try {
             patientService.update(patient);
@@ -53,6 +60,11 @@ public class PatientController {
 
     @PostMapping("/create")
     public String submitCreatePatient(@ModelAttribute PatientDto patient, Model model) {
+        if (patient.getBirthdate().isAfter(LocalDate.now())) {
+            model.addAttribute("error", true);
+            model.addAttribute("errorMsg", "Invalid birthdate!");
+            return createPatient(model);
+        }
         patientService.create(patient);
         return createPatient(model);
     }

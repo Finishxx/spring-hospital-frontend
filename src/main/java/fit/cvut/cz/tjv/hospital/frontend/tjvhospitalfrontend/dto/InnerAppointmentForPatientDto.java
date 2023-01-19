@@ -6,12 +6,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 public class InnerAppointmentForPatientDto {
-    public Long appointment_id;
-    public String doctor_name;
-    public Long doctor_id;
+    private Long appointment_id;
+    private String doctor_name;
+    private Long doctor_id;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    public LocalDateTime time_from;
+    private LocalDateTime time_from;
 
     public Long getAppointment_id() {
         return appointment_id;

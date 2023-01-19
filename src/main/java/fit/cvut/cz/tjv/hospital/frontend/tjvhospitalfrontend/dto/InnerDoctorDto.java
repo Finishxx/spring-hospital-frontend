@@ -2,8 +2,8 @@ package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto;
 
 
 public class InnerDoctorDto {
-    public Long doctor_id;
-    public String doctor_name;
+    private Long doctor_id;
+    private String doctor_name;
 
     public Long getDoctor_id() {
         return doctor_id;

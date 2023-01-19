@@ -56,6 +56,8 @@
     <!-- https://stackoverflow.com/questions/46216134/thymeleaf-how-to-make-a-button-link-to-another-html-page -->
     <a href="#" th:href="@{'/doctors/addPatient?id=' + ${doctor.id}}" class="btn btn-success">Add Patient</a>
     <a href="#" th:href="@{'/doctors/removePatient?id=' + ${doctor.id}}" class="btn btn-success">Remove Patient</a>
+    <a href="#" th:href="@{'/doctors/cancelAppointments?id=' + ${doctor.id}}" class="btn btn-success">Cancel Appointments</a>
+
 
 
 </body>

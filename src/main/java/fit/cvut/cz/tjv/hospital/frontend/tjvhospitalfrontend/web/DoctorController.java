@@ -1,8 +1,9 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.web;
 
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.DoctorDto;
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.InnerPatientDto;
-import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.PatientDto;
+import ch.qos.logback.core.joran.sanity.Pair;
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.client.AppointmentClient;
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.*;
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.AppointmentService;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.DoctorService;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.service.PatientService;
 import jakarta.ws.rs.BadRequestException;
@@ -10,7 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import javax.print.Doc;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/doctors")
@@ -18,10 +23,15 @@ public class DoctorController {
 
     private DoctorService doctorService;
     private PatientService patientService;
+    private AppointmentService appointmentService;
 
-    public DoctorController(DoctorService doctorService, PatientService patientService) {
+
+    public DoctorController(DoctorService doctorService,
+                            PatientService patientService,
+                            AppointmentService appointmentService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
+        this.appointmentService = appointmentService;
     }
 
     @GetMapping
@@ -128,8 +138,59 @@ public class DoctorController {
 
     @GetMapping("/delete")
     public String deleteDoctor(@RequestParam Long id, Model model) {
-        doctorService.delete(id);
+        doctorService.delete(id);;
         return doctor(model);
+    }
+
+    @GetMapping("/cancelAppointments")
+    public String cancelAppointments(@RequestParam Long id, Model model) {
+
+        ArrayList<AppointmentDto> appointments = new ArrayList<>();
+        doctorService.setActiveDoctor(id);
+        DoctorDto doctor = doctorService.readOne().orElseThrow();
+
+        for (InnerAppointmentForDoctorDto innerAppointment : doctor.getAppointments()) {
+            appointmentService.setActiveAppointment(innerAppointment.getAppointment_id());
+            appointments.add(appointmentService.readOne().orElseThrow());
+        }
+        Map<LocalDate, Collection<AppointmentDto>> dateAppointmentPairs = new HashMap<>();
+
+        for (AppointmentDto appointment : appointments)
+            System.out.println("All dates: " + appointment.getFrom().toLocalDate());
+
+        appointments.stream().forEach(appointment -> {
+            var collection = dateAppointmentPairs.get(appointment.getFrom().toLocalDate());
+            System.out.println("Looking for date: " + appointment.getFrom().toLocalDate());
+            System.out.println("It is: " + collection == null);
+            if ( collection == null )
+                dateAppointmentPairs.put(appointment.getFrom().toLocalDate(), new ArrayList<>(List.of(appointment)));
+            if (collection != null)
+                collection.add(appointment);
+        });
+
+        model.addAttribute("dateAppointments", dateAppointmentPairs);
+        model.addAttribute("doctor", doctor);
+        return "doctorsCancelAppointment";
+    }
+
+    @PostMapping("/cancelAppointments")
+    public String submitCancelAppointments(@RequestParam Long id, @RequestParam Long cancelled, Model model) {
+        doctorService.setActiveDoctor(id);
+        DoctorDto doctor = doctorService.readOne().orElseThrow();
+
+        appointmentService.setActiveAppointment(cancelled);
+        AppointmentDto cancelledAppointment = appointmentService.readOne().orElseThrow();
+
+        LocalDate cancelDate = cancelledAppointment.getFrom().toLocalDate();
+
+        List<Long> toCancelIds = doctor.getAppointments().stream().
+                filter(appointment -> appointment.getTime_from().toLocalDate().equals(cancelDate)).
+                map(InnerAppointmentForDoctorDto::getAppointment_id).
+                toList();
+        for (Long appointmentId : toCancelIds)
+            appointmentService.delete(appointmentId);
+
+        return cancelAppointments(doctor.getId(), model);
     }
 
 }
