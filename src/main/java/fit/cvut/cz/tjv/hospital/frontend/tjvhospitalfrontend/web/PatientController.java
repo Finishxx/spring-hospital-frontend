@@ -57,4 +57,10 @@ public class PatientController {
         return createPatient(model);
     }
 
+    @GetMapping("/delete")
+    public String deletePatient(@RequestParam Long id, Model model) {
+        patientService.delete(id);
+        return patient(model);
+    }
+
 }

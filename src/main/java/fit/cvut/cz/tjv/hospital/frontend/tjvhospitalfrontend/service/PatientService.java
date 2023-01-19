@@ -29,4 +29,6 @@ public class PatientService {
 
     public void update(PatientDto patient) { patientClient.updateOne(patient); }
 
+    public void delete(Long id) { patientClient.delete(id); }
+
 }

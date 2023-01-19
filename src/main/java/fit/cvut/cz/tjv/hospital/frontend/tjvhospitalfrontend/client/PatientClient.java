@@ -62,5 +62,10 @@ public class PatientClient {
         if (response.getStatus() > 200)
             throw new BadRequestException(response.getStatusInfo().getReasonPhrase());
     }
+
+    public void delete(Long id) {
+        setActivePatient(id);
+        activePatientEndpoint.request(MediaType.APPLICATION_JSON_TYPE).delete(PatientDto.class);
+    }
 }
 
