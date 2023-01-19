@@ -1,5 +1,6 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.client;
 
+import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.AppointmentDto;
 import fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto.DoctorDto;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.client.Client;
@@ -62,5 +63,10 @@ public class DoctorClient {
                 .put(Entity.entity(doctor, MediaType.APPLICATION_JSON_TYPE));
         if (response.getStatus() > 200)
             throw new BadRequestException(response.getStatusInfo().getReasonPhrase());
+    }
+
+    public void delete(Long id) {
+        setActiveDoctor(id);
+        activeDoctorEndpoint.request(MediaType.APPLICATION_JSON_TYPE).delete(AppointmentDto.class);
     }
 }

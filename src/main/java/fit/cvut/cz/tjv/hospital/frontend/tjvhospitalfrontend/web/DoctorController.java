@@ -125,4 +125,11 @@ public class DoctorController {
         doctorService.create(doctor);
         return createPatient(model);
     }
+
+    @GetMapping("/delete")
+    public String deleteDoctor(@RequestParam Long id, Model model) {
+        doctorService.delete(id);
+        return doctor(model);
+    }
+
 }

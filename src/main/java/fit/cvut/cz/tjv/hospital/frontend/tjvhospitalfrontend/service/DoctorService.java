@@ -28,4 +28,7 @@ public class DoctorService {
     public Collection<DoctorDto> readAll() { return doctorClient.readAll(); }
 
     public void update(DoctorDto doctor) { doctorClient.updateOne(doctor); }
+
+    public void delete(Long id) { doctorClient.delete(id); }
+
 }

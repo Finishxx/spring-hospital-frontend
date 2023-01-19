@@ -1,6 +1,7 @@
 package fit.cvut.cz.tjv.hospital.frontend.tjvhospitalfrontend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +9,8 @@ public class InnerAppointmentForDoctorDto {
     public Long appointment_id;
     public String patient_name;
     public Long patient_id;
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSX")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     public LocalDateTime time_from;
 
     public Long getAppointment_id() {

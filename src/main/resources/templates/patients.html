@@ -63,6 +63,8 @@
                 </p>
             </td>
             <td><a href="#" th:href="@{'/patients/edit?id=' + ${patient.id}}">edit</a></td>
+            <td><a style="color:red" href="#" th:href="@{'/patients/delete?id=' + ${patient.id}}">delete</a></td>
+
         </tr>
         </tbody>
     </table>
