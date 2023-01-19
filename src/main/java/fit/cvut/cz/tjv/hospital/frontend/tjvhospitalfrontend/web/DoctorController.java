@@ -112,6 +112,17 @@ public class DoctorController {
         doctorService.update(doctor);
 
         return removePatient(id, model);
+    }
 
+    @GetMapping("/create")
+    public String createPatient(Model model) {
+        model.addAttribute("doctor", new DoctorDto());
+        return "doctorsCreate";
+    }
+
+    @PostMapping("/create")
+    public String submitCreatePatient(@ModelAttribute DoctorDto doctor, Model model) {
+        doctorService.create(doctor);
+        return createPatient(model);
     }
 }
