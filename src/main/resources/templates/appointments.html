@@ -42,8 +42,16 @@
         </thead>
         <tbody>
         <tr th:each="appointment : ${allAppointments}" >
-            <td th:text="${appointment.patient.patient_name}"></td>
-            <td th:text="${appointment.doctor.doctor_name}"></td>
+            <td>
+                <a href="#" th:href="@{'/patients/edit?id=' + ${appointment.patient.patient_id}}">
+                    <span th:text="${appointment.patient.patient_name}"></span>
+                </a>
+            </td>
+            <td>
+                <a href="#" th:href="@{'/doctors/edit?id=' + ${appointment.doctor.doctor_id}}">
+                    <span th:text="${appointment.doctor.doctor_name}"></span>
+                </a>
+            </td>
             <td th:text="${#temporals.format(appointment.from, 'MEDIUM')}"></td>
             <td th:text="${#temporals.format(appointment.to, 'MEDIUM')}"></td>
             <td><a href="#" th:href="@{'/appointments/edit?id=' + ${appointment.id}}">edit</a></td>
