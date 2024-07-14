@@ -1,4 +1,4 @@
-# TJV Hospital Frontend
+# Spring Hospital Frontend
 
 This Spring Boot web server renders dynamic web content using
 [this backend](https://github.com/Finishxx/tjv-hospital)'s exposed
