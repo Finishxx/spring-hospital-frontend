@@ -50,8 +50,8 @@
             <label for="phoneNUmber">Doctor phone number</label>
             <input type="text" id="phoneNUmber" name="phoneNUmber" class="form-control" th:value="${doctor.phoneNumber}" th:field="*{phoneNumber}">
         </div>
-        <input type="submit" class="btn btn-primary">
-        <input type="reset" class="btn btn-secondary">
+        <input type="submit" class="btn btn-primary" value="Submit">
+        <input type="reset" class="btn btn-secondary" value="Reset">
     </form>
     <!-- https://stackoverflow.com/questions/46216134/thymeleaf-how-to-make-a-button-link-to-another-html-page -->
     <a href="#" th:href="@{'/doctors/addPatient?id=' + ${doctor.id}}" class="btn btn-success">Add Patient</a>
